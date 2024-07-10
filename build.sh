@@ -6,7 +6,7 @@ autoconf
 
 ./bootstrap
 
-./configure --with-python3 && make && make check
+./configure --with-python3 --with-openssl && make && make check
 
 cd ../
 
