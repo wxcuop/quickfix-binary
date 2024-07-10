@@ -20,26 +20,26 @@ jobs:
           sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
           sudo apt-get install -y postgresql postgresql-contrib libpq-dev
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install setuptools wheel auditwheel
       - name: Create C++ directory
         run: mkdir -p C++
-      - name: Create dummy MySQLStubs.h
-        run: |
-          echo '#ifndef MYSQLSTUBS_H' > C++/MySQLStubs.h
-          echo '#define MYSQLSTUBS_H' >> C++/MySQLStubs.h
-          echo '// Dummy content' >> C++/MySQLStubs.h
-          echo '#endif // MYSQLSTUBS_H' >> C++/MySQLStubs.h
+      # - name: Create dummy MySQLStubs.h
+      #   run: |
+      #     echo '#ifndef MYSQLSTUBS_H' > C++/MySQLStubs.h
+      #     echo '#define MYSQLSTUBS_H' >> C++/MySQLStubs.h
+      #     echo '// Dummy content' >> C++/MySQLStubs.h
+      #     echo '#endif // MYSQLSTUBS_H' >> C++/MySQLStubs.h
       - name: Convert line endings
         run: dos2unix ./build.sh
       - name: Make build.sh executable
         run: chmod +x ./build.sh
       - name: Build
         env:
-          CPLUS_INCLUDE_PATH: /usr/include/mysql
+          CPLUS_INCLUDE_PATH: /usr/include/mysql:/usr/include/postgresql
         run: ./build.sh
       - name: Fix linux wheel
         run: auditwheel repair $(ls ./dist/*.whl | head -1) --plat manylinux_2_17_x86_64
