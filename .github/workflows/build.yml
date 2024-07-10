@@ -1,1 +1,51 @@
+name: Build and Deploy
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.12' ]
+        os: [ 'ubuntu-latest' ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup
+        run: sudo apt-get update && sudo apt-get install -y build-essential automake libtool pkg-config openssl libssl-dev
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install setuptools wheel auditwheel
+      - name: Build
+        run: ./build.sh
+      - name: Fix linux wheel
+        run: auditwheel repair $(ls ./dist/*.whl | head -1) --plat manylinux_2_17_x86_64
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          publish_dir: ./dist
