@@ -1,9 +1,6 @@
 name: Build and Deploy
 
 on:
-  # push:
-  #   branches:
-  #     - main
   workflow_dispatch:
 
 jobs:
@@ -33,13 +30,14 @@ jobs:
       - name: Make build.sh executable
         run: chmod +x ./build.sh
       - name: Build
+        env:
+          CPLUS_INCLUDE_PATH: /usr/include/mysql
         run: ./build.sh
       - name: Fix linux wheel
         run: auditwheel repair $(ls ./dist/*.whl | head -1) --plat manylinux_2_17_x86_64
 
   deploy:
     needs: build
-    if: github.ref == 'refs/heads/main'
     permissions:
       pages: write
       id-token: write
