@@ -23,6 +23,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install setuptools wheel auditwheel
+      - name: Make build.sh executable
+        run: chmod +x ./build.sh
       - name: Build
         run: ./build.sh
       - name: Fix linux wheel
