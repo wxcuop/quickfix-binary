@@ -25,6 +25,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install setuptools wheel auditwheel
+      - name: Create dummy MySQLStubs.h
+        run: |
+          echo '#ifndef MYSQLSTUBS_H' > C++/MySQLStubs.h
+          echo '#define MYSQLSTUBS_H' >> C++/MySQLStubs.h
+          echo '// Dummy content' >> C++/MySQLStubs.h
+          echo '#endif // MYSQLSTUBS_H' >> C++/MySQLStubs.h
       - name: Convert line endings
         run: dos2unix ./build.sh
       - name: Make build.sh executable
