@@ -63,6 +63,6 @@ setup(name='quickfix-binary',
       cmdclass={'build_ext': build_ext_subclass},
       ext_modules=[Extension('_quickfix', glob.glob('C++/*.cpp'),
                              extra_compile_args=['-std=c++0x', '-Wno-deprecated', '-Wno-unused-label', '-Wno-unused-variable',
-                                                 '-Wno-deprecated-declarations', '-Wno-maybe-uninitialized'],
+                                                 '-Wno-deprecated-declarations', '-Wno-maybe-uninitialized', '-Wno-noexcept-type'],
                              include_dirs=['/usr/include/postgresql'])],  # Added PostgreSQL include directory
       )
