@@ -25,6 +25,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install setuptools wheel auditwheel
+      - name: Create C++ directory
+        run: mkdir -p C++
       - name: Create dummy MySQLStubs.h
         run: |
           echo '#ifndef MYSQLSTUBS_H' > C++/MySQLStubs.h
