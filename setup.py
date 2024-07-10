@@ -62,6 +62,6 @@ setup(name='quickfix-binary',
       license=license_,
       cmdclass={'build_ext': build_ext_subclass},
       ext_modules=[Extension('_quickfix', glob.glob('C++/*.cpp'),
-                             extra_compile_args=['-std=c++0x', '-W'],
+                             extra_compile_args=['-std=c++0x', '-w'],
                              include_dirs=['/usr/include/postgresql'])],  # Added PostgreSQL include directory
       )
