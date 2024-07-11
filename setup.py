@@ -48,7 +48,7 @@ with open('LICENSE') as file:
     license_ = file.read()
 
 setup(name='quickfix-binary',
-      version=f'0.0.1.dev{utc_now}',  # Updated version string to be PEP 440 compliant
+      version=f'1.15.1',  
       py_modules=['quickfix', 'quickfixt11', 'quickfix40', 'quickfix41', 'quickfix42', 'quickfix43', 'quickfix44',
                   'quickfix50', 'quickfix50sp1', 'quickfix50sp2'],
       data_files=[('share/quickfix', glob.glob('spec/FIX*.xml'))],
