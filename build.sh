@@ -1,5 +1,5 @@
 unzip quickfix-1.15.1.zip
-
+mv quickfix-1.15.1 quickfix
 cd quickfix
 
 autoconf
