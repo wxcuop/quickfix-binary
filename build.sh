@@ -1,5 +1,5 @@
-git clone --depth 1 https://github.com/quickfix/quickfix.git
-
+wget https://github.com/quickfix/quickfix/archive/refs/tags/v1.15.1.tar.gz
+tar zxvf v1.15.1.tar.gz
 cd quickfix
 
 autoconf
