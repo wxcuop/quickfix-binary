@@ -28,6 +28,8 @@ cp quickfix/LICENSE ./
 
 cp quickfix/spec/FIX*.xml ./spec
 
+touch config.h
+touch config_windows.h
 
 touch ./C++/config.h
 touch ./C++/config_windows.h
