@@ -48,7 +48,7 @@ with open('LICENSE') as file:
     license_ = file.read()
 
 setup(name='quickfix-binary',
-      version=f'1.15.1',  
+      version='1.15.1',
       py_modules=['quickfix', 'quickfixt11', 'quickfix40', 'quickfix41', 'quickfix42', 'quickfix43', 'quickfix44',
                   'quickfix50', 'quickfix50sp1', 'quickfix50sp2'],
       data_files=[('share/quickfix', glob.glob('spec/FIX*.xml'))],
@@ -58,10 +58,10 @@ setup(name='quickfix-binary',
       description="FIX (Financial Information eXchange) protocol implementation",
       url='http://www.quickfixengine.org',
       download_url='http://www.quickfixengine.org',
-      include_dirs=['C++', '/usr/include/postgresql'],  # Added PostgreSQL include directory
+      include_dirs=['C++'],
       license=license_,
       cmdclass={'build_ext': build_ext_subclass},
       ext_modules=[Extension('_quickfix', glob.glob('C++/*.cpp'),
-                             extra_compile_args=['-std=c++0x', '-w','-fsyntax-only'],
-                             include_dirs=['/usr/include/postgresql'])],  # Added PostgreSQL include directory
+                             extra_compile_args=['-std=c++0x', '-Wno-deprecated', '-Wno-unused-variable',
+                                                 '-Wno-deprecated-declarations', '-Wno-maybe-uninitialized'])],
       )
