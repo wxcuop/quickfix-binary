@@ -1,5 +1,8 @@
 wget https://github.com/quickfix/quickfix/archive/refs/tags/v1.15.1.tar.gz
 tar zxvf v1.15.1.tar.gz
+
+mv quickfix-1.15.1 quickfix
+
 cd quickfix
 
 autoconf
