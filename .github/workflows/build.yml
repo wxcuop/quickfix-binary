@@ -41,8 +41,8 @@ jobs:
         env:
           CPLUS_INCLUDE_PATH: /usr/include/mysql:/usr/include/postgresql
         run: ./build.sh
-      - name: Fix linux wheel
-        run: auditwheel repair $(ls ./dist/*.whl | head -1) --plat manylinux_2_27_x86_64
+      # - name: Fix linux wheel
+      #   run: auditwheel repair $(ls ./dist/*.whl | head -1) --plat manylinux_2_27_x86_64
 
   deploy:
     needs: build
