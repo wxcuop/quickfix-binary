@@ -1,5 +1,4 @@
-wget https://github.com/quickfix/quickfix/archive/refs/tags/v1.15.1.tar.gz
-tar zxvf v1.15.1.tar.gz
+unzip quickfix-1.15.1.zip
 
 mv quickfix-1.15.1 quickfix
 
