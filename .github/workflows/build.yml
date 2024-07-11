@@ -11,45 +11,41 @@ jobs:
       matrix:
         python-version: [ '3.12' ]
         os: [ 'ubuntu-latest' ]
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential autoconf automake libtool pkg-config openssl libssl-dev dos2unix libltdl-dev
           sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
           sudo apt-get install -y postgresql postgresql-contrib libpq-dev wget
-
-      - name: Setup Python
+      - name: Setup python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
       - name: Install dependencies
         run: pip install setuptools wheel auditwheel
-
+      # - name: Create C++ directory
+      #   run: mkdir -p C++
+      # - name: Create dummy MySQLStubs.h
+      #   run: |
+      #     echo '#ifndef MYSQLSTUBS_H' > C++/MySQLStubs.h
+      #     echo '#define MYSQLSTUBS_H' >> C++/MySQLStubs.h
+      #     echo '// Dummy content' >> C++/MySQLStubs.h
+      #     echo '#endif // MYSQLSTUBS_H' >> C++/MySQLStubs.h
       - name: Convert line endings
         run: dos2unix ./build.sh
-
       - name: Make build.sh executable
         run: chmod +x ./build.sh
-
       - name: Build
         env:
           CPLUS_INCLUDE_PATH: /usr/include/mysql:/usr/include/postgresql
         run: ./build.sh
-
-      - name: Upload wheel to artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: built-wheel
-          path: wheelhouse/*.whl
+      - name: Fix linux wheel
+        run: auditwheel repair $(ls ./dist/*.whl | head -1) --plat manylinux_2_27_x86_64
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
@@ -58,16 +54,14 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download built wheel
-        uses: actions/download-artifact@v3
-        with:
-          name: built-wheel
-          path: ./dist
-
+      - name: Copy wheel to dist
+        run: |
+          mkdir -p dist
+          cp $(ls ./dist/*.whl | head -1) dist/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
