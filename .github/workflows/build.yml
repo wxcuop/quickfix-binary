@@ -21,7 +21,6 @@ jobs:
           sudo apt-get install -y build-essential autoconf automake libtool pkg-config openssl libssl-dev dos2unix libltdl-dev
           sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
           sudo apt-get install -y postgresql postgresql-contrib libpq-dev wget
-          sudo apt-get install -y docker.io
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -41,12 +40,6 @@ jobs:
         env:
           CPLUS_INCLUDE_PATH: /usr/include/mysql:/usr/include/postgresql
         run: ./build.sh
-
-      - name: Fix Linux wheel
-        run: |
-          docker run --rm -v $(pwd):/io quay.io/pypa/manylinux2014_x86_64 /bin/bash -c "
-            auditwheel repair /io/dist/*.whl --plat manylinux_2_17_x86_64 -w /io/wheelhouse/
-          "
 
       - name: Upload wheel to artifact
         uses: actions/upload-artifact@v3
