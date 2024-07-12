@@ -31,8 +31,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install setuptools wheel cibuildwheel
 
+      - name: Ensure Visual Studio 2019 is installed
+        run: |
+          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
+          choco install vswhere
+
+      - name: Configure QuickFIX
+        run: |
+          cd src
+          echo '#define HAVE_STLPORT 1' >> config_windows.h
+          echo '#define HAVE_ODBC 1' >> config_windows.h
+          echo '#define HAVE_MYSQL 1' >> config_windows.h
+          echo '#define HAVE_POSTGRESQL 1' >> config_windows.h
+
       - name: Build QuickFIX
         run: |
+          set PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
           mkdir build
           cd build
           cmake -G "Visual Studio 16 2019" -A x64 -DHAVE_SSL=ON -DCMAKE_INSTALL_PREFIX="C:/quickfix" ..
