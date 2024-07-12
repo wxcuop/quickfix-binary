@@ -12,9 +12,10 @@ jobs:
         python-version: ['3.12']
 
     steps:
-      - name: Checkout master branch
+      - name: Checkout QuickFIX master branch
         uses: actions/checkout@v4
         with:
+          repository: quickfix/quickfix
           ref: master
 
       - name: Set up Python ${{ matrix.python-version }}
