@@ -41,13 +41,7 @@ jobs:
         run: |
           CALL "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 
-      - name: Configure QuickFIX
-        run: |
-          cd src
-          echo '#define HAVE_STLPORT 1' >> config_windows.h
-          echo '#define HAVE_ODBC 1' >> config_windows.h
-          echo '#define HAVE_MYSQL 1' >> config_windows.h
-          echo '#define HAVE_POSTGRESQL 1' >> config_windows.h
+      
 
       - name: Build QuickFIX
         run: |
