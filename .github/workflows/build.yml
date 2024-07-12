@@ -1,3 +1,4 @@
+```yaml
 name: Build and Deploy QuickFIX
 
 on:
@@ -35,6 +36,10 @@ jobs:
         run: |
           choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
           choco install vswhere
+
+      - name: Locate Visual Studio 2019
+        run: |
+          CALL "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 
       - name: Configure QuickFIX
         run: |
@@ -78,3 +83,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+```
