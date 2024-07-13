@@ -49,7 +49,7 @@ with open('LICENSE') as file:
 
 setup(
     name='quickfix-binary',
-    version='1.15.1plusmain',
+    version='1.15.1+main',
     py_modules=[
         'quickfix', 'quickfixt11', 'quickfix40', 'quickfix41', 'quickfix42',
         'quickfix43', 'quickfix44', 'quickfix50', 'quickfix50sp1', 'quickfix50sp2'
