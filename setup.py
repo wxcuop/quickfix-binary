@@ -67,9 +67,7 @@ setup(
     ext_modules=[Extension(
         '_quickfix', glob.glob('C++/*.cpp'),
         extra_compile_args=[
-            '-std=c++0x', '-Wno-deprecated', '-Wno-unused-variable',
-            '-Wno-deprecated-declarations', '-Wno-maybe-uninitialized',
-            '-Wno-stringop-truncation', '-Wno-stringop-overflow'
+            '-std=c++0x'
         ]
     )],
 )
