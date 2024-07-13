@@ -62,9 +62,9 @@ setup(
     description="FIX (Financial Information eXchange) protocol implementation",
     url='http://www.quickfixengine.org',
     download_url='http://www.quickfixengine.org',
-    include_dirs=['C++', 'C:/path/to/openssl/include'],  # Update with the actual path to OpenSSL include directory
+    include_dirs=['C++', 'C:/Program Files/OpenSSL-Win64/include'],  # Default path for OpenSSL include directory
     libraries=['ssl', 'crypto'],
-    library_dirs=['C:/path/to/openssl/lib'],  # Update with the actual path to OpenSSL library directory
+    library_dirs=['C:/Program Files/OpenSSL-Win64/lib'],  # Default path for OpenSSL library directory
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
     ext_modules=[Extension(
