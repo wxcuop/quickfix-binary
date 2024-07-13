@@ -65,14 +65,29 @@ jobs:
           cmake -G "Visual Studio 16 2019" -A x64 -DHAVE_SSL=ON -DCMAKE_INSTALL_PREFIX="C:/quickfix" ..
           cmake --build . --config Release
           cmake --install .
-
+          
+      - name: Prepare files for wheel build
+        run: |
+          mkdir ./quickfix-binary/C++
+          mkdir ./quickfix-binary/spec
+          cp quickfix/src/python3/*.py ./quickfix-binary/
+          cp quickfix/src/C++/*.h ./quickfix-binary/C++
+          cp quickfix/src/C++/*.hpp ./quickfix-binary/C++
+          cp quickfix/src/C++/*.cpp ./quickfix-binary/C++
+          cp -R quickfix/src/C++/double-conversion ./quickfix-binary/C++
+          cp quickfix/src/python3/QuickfixPython.cpp ./quickfix-binary/C++
+          cp quickfix/src/python3/QuickfixPython.h ./quickfix-binary/C++
+          cp quickfix/LICENSE ./quickfix-binary/
+          cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
+          touch ./quickfix-binary/C++/config.h
+          touch ./quickfix-binary/C++/config_windows.h
+          
       - name: Build wheel
         env:
           CIBW_BUILD: cp312-win_amd64
           CIBW_BEFORE_BUILD: pip install cmake
         run: |
           cd quickfix-binary
-          cp quickfix/LICENSE quickfix-binary/
           python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
