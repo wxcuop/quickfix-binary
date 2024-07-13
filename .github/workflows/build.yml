@@ -18,6 +18,13 @@ jobs:
           repository: quickfix/quickfix
           ref: master
 
+      - name: Checkout quickfix-binary repository
+        uses: actions/checkout@v4
+        with:
+          repository: wxcuop/quickfix-binary
+          ref: main
+          path: quickfix-binary
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -59,20 +66,18 @@ jobs:
           cmake --build . --config Release
           cmake --install .
 
-      - name: Copy setup.py to root directory
-        run: |
-          Copy-Item -Path "src\python\setup.py" -Destination "."
-
       - name: Build wheel
         env:
           CIBW_BUILD: cp312-win_amd64
           CIBW_BEFORE_BUILD: pip install cmake
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: |
+          cd quickfix-binary
+          python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
         with:
           name: quickfix-wheels
-          path: ./wheelhouse/*.whl
+          path: ./quickfix-binary/wheelhouse/*.whl
 
   deploy:
     needs: build
