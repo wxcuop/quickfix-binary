@@ -59,6 +59,10 @@ jobs:
           cmake --build . --config Release
           cmake --install .
 
+      - name: Copy setup.py to root directory
+        run: |
+          Copy-Item -Path "src\python\setup.py" -Destination "."
+
       - name: Build wheel
         env:
           CIBW_BUILD: cp312-win_amd64
