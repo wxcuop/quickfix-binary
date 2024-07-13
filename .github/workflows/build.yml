@@ -39,7 +39,8 @@ jobs:
       - name: Locate Visual Studio 2019
         id: locate-vs
         run: |
-          echo "::set-output name=vs_path::$(vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath)"
+          $vsPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          echo "##vso[task.setvariable variable=vs_path]$vsPath"
 
       - name: Configure QuickFIX
         run: |
@@ -51,7 +52,7 @@ jobs:
 
       - name: Build QuickFIX
         run: |
-          set PATH=%PATH%;${{ steps.locate-vs.outputs.vs_path }}\MSBuild\Current\Bin
+          $env:PATH += ";${{ steps.locate-vs.outputs.vs_path }}\MSBuild\Current\Bin"
           mkdir build
           cd build
           cmake -G "Visual Studio 16 2019" -A x64 -DHAVE_SSL=ON -DCMAKE_INSTALL_PREFIX="C:/quickfix" ..
