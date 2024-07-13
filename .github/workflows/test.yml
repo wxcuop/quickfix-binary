@@ -1,4 +1,4 @@
-name: Build and Deploy QuickFIX
+name: Build and Deploy QuickFIX Test Paths
 
 on:
   workflow_dispatch:
