@@ -71,20 +71,21 @@ jobs:
           
       - name: Prepare files for wheel build
         run: |
-          pwd
-          mkdir ./quickfix-binary/C++
-          mkdir ./quickfix-binary/spec
-          cp quickfix/src/python3/*.py ./quickfix-binary/
-          cp quickfix/src/C++/*.h ./quickfix-binary/C++
-          cp quickfix/src/C++/*.hpp ./quickfix-binary/C++
-          cp quickfix/src/C++/*.cpp ./quickfix-binary/C++
-          cp -R quickfix/src/C++/double-conversion ./quickfix-binary/C++
-          cp quickfix/src/python3/QuickfixPython.cpp ./quickfix-binary/C++
-          cp quickfix/src/python3/QuickfixPython.h ./quickfix-binary/C++
-          cp quickfix/LICENSE ./quickfix-binary/
-          cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
-          touch ./quickfix-binary/C++/config.h
-          touch ./quickfix-binary/C++/config_windows.h
+           pwd
+           ls
+          # mkdir ./quickfix-binary/C++
+          # mkdir ./quickfix-binary/spec
+          # cp quickfix/src/python3/*.py ./quickfix-binary/
+          # cp quickfix/src/C++/*.h ./quickfix-binary/C++
+          # cp quickfix/src/C++/*.hpp ./quickfix-binary/C++
+          # cp quickfix/src/C++/*.cpp ./quickfix-binary/C++
+          # cp -R quickfix/src/C++/double-conversion ./quickfix-binary/C++
+          # cp quickfix/src/python3/QuickfixPython.cpp ./quickfix-binary/C++
+          # cp quickfix/src/python3/QuickfixPython.h ./quickfix-binary/C++
+          # cp quickfix/LICENSE ./quickfix-binary/
+          # cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
+          # touch ./quickfix-binary/C++/config.h
+          # touch ./quickfix-binary/C++/config_windows.h
           
   #     - name: Build wheel
   #       env:
