@@ -1,3 +1,4 @@
+
 import glob
 import sys
 import sysconfig
@@ -18,7 +19,7 @@ class build_ext_subclass(build_ext):
 
         print("Testing for std::shared_ptr...")
         try:
-            self.compiler.compile(['test_std_shared_ptr.cpp'], extra_preargs=['-std=c++0x'])
+            self.compiler.compile(['test_std_shared_ptr.cpp'], extra_preargs=['-std=c++17'])
             self.compiler.define_macro("HAVE_STD_SHARED_PTR")
             print("...found")
         except:
@@ -26,7 +27,7 @@ class build_ext_subclass(build_ext):
 
         print("Testing for std::unique_ptr...")
         try:
-            self.compiler.compile(['test_std_unique_ptr.cpp'], extra_preargs=['-std=c++0x'])
+            self.compiler.compile(['test_std_unique_ptr.cpp'], extra_preargs=['-std=c++17'])
             self.compiler.define_macro("HAVE_STD_UNIQUE_PTR")
             print("...found")
         except:
@@ -61,13 +62,18 @@ setup(
     description="FIX (Financial Information eXchange) protocol implementation",
     url='http://www.quickfixengine.org',
     download_url='http://www.quickfixengine.org',
-    include_dirs=['C++'],
+    include_dirs=['C++', 'C:/path/to/openssl/include'],  # Update with the actual path to OpenSSL include directory
+    libraries=['ssl', 'crypto'],
+    library_dirs=['C:/path/to/openssl/lib'],  # Update with the actual path to OpenSSL library directory
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
     ext_modules=[Extension(
         '_quickfix', glob.glob('C++/*.cpp'),
         extra_compile_args=[
-            '-std=c++0x'
+            '-std=c++17'
+        ],
+        extra_link_args=[
+            '-lssl', '-lcrypto'
         ]
-    )],
+    )]
 )
