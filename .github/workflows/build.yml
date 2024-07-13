@@ -66,6 +66,9 @@ jobs:
           cmake --build . --config Release
           cmake --install .
 
+      - name: Copy LICENSE file
+        run: cp quickfix/LICENSE quickfix-binary/
+
       - name: Build wheel
         env:
           CIBW_BUILD: cp312-win_amd64
@@ -76,20 +79,4 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: quickfix-wheels
-          path: ./quickfix-binary/wheelhouse/*.whl
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: quickfix-wheels
-          path: dist
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          name
