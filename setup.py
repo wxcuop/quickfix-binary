@@ -66,22 +66,11 @@ setup(
     url='http://www.quickfixengine.org',
     download_url='http://www.quickfixengine.org',
     include_dirs=['C++', 'C:/Program Files/OpenSSL-Win64/include'],  # Default path for OpenSSL include directory
-    libraries=[
-        ('ssl', {
-            'include_dirs': ['C:/Program Files/OpenSSL-Win64/include'],
-            'library_dirs': ['C:/Program Files/OpenSSL-Win64/lib'],
-            'libraries': ['ssl']
-        }),
-        ('crypto', {
-            'include_dirs': ['C:/Program Files/OpenSSL-Win64/include'],
-            'library_dirs': ['C:/Program Files/OpenSSL-Win64/lib'],
-            'libraries': ['crypto']
-        })
-    ],
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
     ext_modules=[Extension(
-        '_quickfix', glob.glob('C++/*.cpp'),
+        '_quickfix', 
+        sources=glob.glob('C++/*.cpp'),  # Ensure this includes all necessary source files
         include_dirs=['C++', 'C:/Program Files/OpenSSL-Win64/include'],
         library_dirs=['C:/Program Files/OpenSSL-Win64/lib'],
         libraries=['ssl', 'crypto'],
