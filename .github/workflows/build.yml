@@ -47,7 +47,18 @@ jobs:
       - name: Install OpenSSL
         run: |
           choco install openssl
-
+          echo $env:INCLUDE
+          echo $env:LIB
+      - name: Set OpenSSL Environment Variables
+        run: |
+          $opensslPath = "C:\Program Files\OpenSSL-Win64"
+          echo "INCLUDE=$opensslPath\include" >> $env:GITHUB_ENV
+          echo "LIB=$opensslPath\lib" >> $env:GITHUB_ENV
+          
+      - name: Verify OpenSSL Installation
+        run: |
+          openssl version
+          
       - name: Locate Visual Studio 2019
         id: locate-vs
         run: |
