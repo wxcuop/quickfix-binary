@@ -42,7 +42,7 @@ setup(
     cmdclass={'build_ext': build_ext_subclass},
     ext_modules=[Extension(
         '_quickfix', glob.glob('C++/*.cpp'),
-        include_dirs=['C++', 'C:/Program Files/OpenSSL-Win64/include'],
+        include_dirs=['C++', 'C:/Program Files/OpenSSL/include'],
         library_dirs=['C:/Program Files/OpenSSL/lib'],
         libraries=['ssl', 'crypto'],
         extra_link_args=[]
