@@ -1,4 +1,4 @@
-```python
+
 import glob
 import sys
 import sysconfig
@@ -64,4 +64,3 @@ setup(
     )]
 )
 
-```
