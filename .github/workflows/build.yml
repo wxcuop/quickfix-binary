@@ -49,6 +49,19 @@ jobs:
           choco install openssl
           echo $env:INCLUDE
           echo $env:LIB
+
+      - name: Install MySql
+        run: |
+          choco install mysql
+          echo $env:INCLUDE
+          echo $env:LIB
+
+      - name: Install Postgresql
+        run: |
+          choco install postgresql
+          echo $env:INCLUDE
+          echo $env:LIB
+               
       - name: Set OpenSSL Environment Variables
         run: |
           $opensslPath = "C:\Program Files\OpenSSL"
