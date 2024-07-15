@@ -1,4 +1,3 @@
-
 name: Build and Deploy QuickFIX
 
 on:
@@ -74,19 +73,19 @@ jobs:
 
       - name: Prepare files for wheel build
         run: |
-          mkdir ./quickfix-binary/C++
-          mkdir ./quickfix-binary/spec
-          cp quickfix/src/python3/*.py ./quickfix-binary/
+          mkdir -p ./quickfix-binary/C++
+          mkdir -p ./quickfix-binary/spec
+          
+          cp quickfix/build/*.dll ./quickfix-binary/C++  # Copy precompiled binaries
           cp quickfix/src/C++/*.h ./quickfix-binary/C++
-          cp quickfix/src/C++/*.hpp ./quickfix-binary/C++
-          cp quickfix/src/C++/*.cpp ./quickfix-binary/C++
-          cp -R quickfix/src/C++/double-conversion ./quickfix-binary/C++
+          cp quickfix/src/python3/*.py ./quickfix-binary/
           cp quickfix/src/python3/QuickfixPython.cpp ./quickfix-binary/C++
           cp quickfix/src/python3/QuickfixPython.h ./quickfix-binary/C++
           cp quickfix/LICENSE ./quickfix-binary/
           cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
           touch ./quickfix-binary/C++/config.h
           touch ./quickfix-binary/C++/config_windows.h
+
 
       - name: Build wheel
         env:
