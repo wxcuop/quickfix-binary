@@ -1,3 +1,4 @@
+```python
 import glob
 import sys
 import sysconfig
@@ -37,14 +38,30 @@ setup(
     description="FIX (Financial Information eXchange) protocol implementation",
     url='http://www.quickfixengine.org',
     download_url='http://www.quickfixengine.org',
-    include_dirs=['C++', 'C:/Program Files/OpenSSL/include'],  # Default path for OpenSSL include directory
+    include_dirs=[
+        'C++', 
+        'C:/Program Files/OpenSSL-Win64/include', 
+        'C:/tools/mysql/include',  # Updated MySQL include directory
+        'C:/Program Files/PostgreSQL/16/include'  # Added PostgreSQL include directory
+    ],
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
     ext_modules=[Extension(
         '_quickfix', glob.glob('C++/*.cpp'),
-        include_dirs=['C++', 'C:/Program Files/OpenSSL/include'],
-        library_dirs=['C:/Program Files/OpenSSL/lib'],
-        libraries=['ssl', 'crypto'],
+        include_dirs=[
+            'C++', 
+            'C:/Program Files/OpenSSL-Win64/include', 
+            'C:/tools/mysql/include',  # Updated MySQL include directory
+            'C:/Program Files/PostgreSQL/16/include'  # Added PostgreSQL include directory
+        ],
+        library_dirs=[
+            'C:/Program Files/OpenSSL-Win64/lib', 
+            'C:/tools/mysql/lib',  # Updated MySQL library directory
+            'C:/Program Files/PostgreSQL/16/lib'  # Added PostgreSQL library directory
+        ],
+        libraries=['ssl', 'crypto', 'mysqlclient', 'pq'],  # Added 'pq' for PostgreSQL
         extra_link_args=[]
     )]
 )
+
+```
