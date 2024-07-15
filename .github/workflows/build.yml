@@ -51,7 +51,7 @@ jobs:
           echo $env:LIB
       - name: Set OpenSSL Environment Variables
         run: |
-          $opensslPath = "C:\Program Files\OpenSSL-Win64"
+          $opensslPath = "C:\Program Files\OpenSSL"
           echo "INCLUDE=$opensslPath\include" >> $env:GITHUB_ENV
           echo "LIB=$opensslPath\lib" >> $env:GITHUB_ENV
           
