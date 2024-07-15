@@ -86,7 +86,6 @@ jobs:
           touch ./quickfix-binary/C++/config.h
           touch ./quickfix-binary/C++/config_windows.h
 
-
       - name: Build wheel
         env:
           CIBW_BUILD: cp312-win_amd64
