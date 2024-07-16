@@ -40,7 +40,8 @@ setup(
     include_dirs=[
         'C++', 
         'C:/Program Files/OpenSSL/include',
-        'D:/a/quickfix-binary/quickfix-binary/quickfix/src/swig'
+        'D:/a/quickfix-binary/quickfix-binary/quickfix/src/swig',
+        'D:\a\quickfix-binary\quickfix-binary\quickfix-binary\C++'
     ],
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
