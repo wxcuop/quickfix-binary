@@ -39,9 +39,7 @@ setup(
     download_url='http://www.quickfixengine.org',
     include_dirs=[
         'C++', 
-        'C:/Program Files/OpenSSL/include', 
-        'C:/tools/mysql/include',  # Updated MySQL include directory
-        'C:/Program Files/PostgreSQL/16/include'  # Added PostgreSQL include directory
+        'C:/Program Files/OpenSSL/include',
     ],
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
@@ -50,15 +48,11 @@ setup(
         include_dirs=[
             'C++', 
             'C:/Program Files/OpenSSL/include', 
-            'C:/tools/mysql/include',  # Updated MySQL include directory
-            'C:/Program Files/PostgreSQL/16/include'  # Added PostgreSQL include directory
         ],
         library_dirs=[
-            'C:/Program Files/OpenSSL-Win64/lib', 
-            'C:/tools/mysql/lib',  # Updated MySQL library directory
-            'C:/Program Files/PostgreSQL/16/lib'  # Added PostgreSQL library directory
+            'C:/Program Files/OpenSSL/lib', 
         ],
-        libraries=['ssl', 'crypto', 'mysqlclient', 'pq'],  # Added 'pq' for PostgreSQL
+        libraries=['ssl', 'crypto'],  
         extra_link_args=[]
     )]
 )
