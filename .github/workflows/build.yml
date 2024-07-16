@@ -90,7 +90,7 @@ jobs:
           cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
           touch ./quickfix-binary/C++/config.h
           touch ./quickfix-binary/C++/config_windows.h
-          find ${{ github.workspace }}/quickfix-binary/ -type f
+    
 
       - name: Build wheel
         env:
