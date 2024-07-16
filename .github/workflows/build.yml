@@ -85,7 +85,7 @@ jobs:
           cp quickfix/src/python3/*.py ./quickfix-binary/
           cp quickfix/src/python3/QuickfixPython.cpp ./quickfix-binary/C++
           cp quickfix/src/python3/QuickfixPython.h ./quickfix-binary/C++
-          cp quickfix/src/python3/swig/* ./quickfix-binary/C++
+          cp quickfix/src/swig/* ./quickfix-binary/C++
           cp quickfix/LICENSE ./quickfix-binary/
           cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
           touch ./quickfix-binary/C++/config.h
