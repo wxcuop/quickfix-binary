@@ -50,7 +50,8 @@ setup(
         include_dirs=[
             'C++', 
             'C:/Program Files/OpenSSL/include', 
-            'D:/a/quickfix-binary/quickfix-binary/quickfix/src/swig'
+            'D:/a/quickfix-binary/quickfix-binary/quickfix/src/swig',
+            'D:/a/quickfix-binary/quickfix-binary/quickfix-binary/C++'
         ],
         library_dirs=[
             'C:/Program Files/OpenSSL/lib', 
