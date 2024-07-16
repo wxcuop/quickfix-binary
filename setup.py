@@ -1,8 +1,6 @@
-
 import glob
 import sys
 import sysconfig
-import os
 from distutils.command.build_ext import build_ext
 from setuptools import setup, Extension
 from datetime import datetime, timezone
@@ -11,13 +9,6 @@ class build_ext_subclass(build_ext):
     def build_extensions(self):
         self.compiler.define_macro("PYTHON_MAJOR_VERSION", sys.version_info[0])
         build_ext.build_extensions(self)
-
-# Function to find MySQLStubs.h on the C drive
-def find_file_on_c_drive(filename):
-    for root, dirs, files in os.walk('C:\\'):
-        if filename in files:
-            return os.path.join(root, filename)
-    return None
 
 # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
 cfg_vars = sysconfig.get_config_vars()
@@ -31,13 +22,6 @@ utc_now = datetime.now(timezone.utc).strftime('%Y%m%d')
 long_description = ''
 with open('LICENSE') as file:
     license_ = file.read()
-
-# Find the directory containing MySQLStubs.h
-mysql_stubs_path = find_file_on_c_drive('MySQLStubs.h')
-if mysql_stubs_path:
-    mysql_include_dir = os.path.dirname(mysql_stubs_path)
-else:
-    raise FileNotFoundError('MySQLStubs.h not found on C drive')
 
 setup(
     name='quickfix-binary',
@@ -55,9 +39,9 @@ setup(
     download_url='http://www.quickfixengine.org',
     include_dirs=[
         'C++', 
-        'C:/Program Files/OpenSSL/include',  # OpenSSL include directory
-        mysql_include_dir,  # MySQL include directory
-        'C:/Program Files/PostgreSQL/16/include'  # PostgreSQL include directory
+        'C:/Program Files/OpenSSL/include', 
+        'C:/tools/mysql/include',  # Updated MySQL include directory
+        'C:/Program Files/PostgreSQL/16/include'  # Added PostgreSQL include directory
     ],
     license=license_,
     cmdclass={'build_ext': build_ext_subclass},
@@ -65,16 +49,17 @@ setup(
         '_quickfix', glob.glob('C++/*.cpp'),
         include_dirs=[
             'C++', 
-            'C:/Program Files/OpenSSL/include',  # OpenSSL include directory
-            mysql_include_dir,  # MySQL include directory
-            'C:/Program Files/PostgreSQL/16/include'  # PostgreSQL include directory
+            'C:/Program Files/OpenSSL/include', 
+            'C:/tools/mysql/include',  # Updated MySQL include directory
+            'C:/Program Files/PostgreSQL/16/include'  # Added PostgreSQL include directory
         ],
         library_dirs=[
-            'C:/Program Files/OpenSSL/lib',  # OpenSSL library directory
-            'C:/tools/mysql/lib',  # MySQL library directory
-            'C:/Program Files/PostgreSQL/16/lib'  # PostgreSQL library directory
+            'C:/Program Files/OpenSSL-Win64/lib', 
+            'C:/tools/mysql/lib',  # Updated MySQL library directory
+            'C:/Program Files/PostgreSQL/16/lib'  # Added PostgreSQL library directory
         ],
         libraries=['ssl', 'crypto', 'mysqlclient', 'pq'],  # Added 'pq' for PostgreSQL
         extra_link_args=[]
     )]
 )
+
