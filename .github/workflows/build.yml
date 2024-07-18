@@ -12,19 +12,16 @@ jobs:
         python-version: ['3.12']
 
     steps:
-      - name: Checkout QuickFIX master branch
-        uses: actions/checkout@v4
-        with:
-          repository: quickfix/quickfix
-          ref: master
-          path: quickfix
-
       - name: Checkout quickfix-binary repository
         uses: actions/checkout@v4
         with:
           repository: wxcuop/quickfix-binary
           ref: main
           path: quickfix-binary
+          
+      - name: Unzip QuickFIX 1.15.1
+        run: |
+          Expand-Archive -Path quickfix-binary/quickfix-modified.zip -DestinationPath quickfix
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -66,38 +63,12 @@ jobs:
           $vsPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
           echo "##vso[task.setvariable variable=vs_path]$vsPath"
 
-      - name: Build QuickFIX
-        run: |
-          $env:PATH += ";${{ steps.locate-vs.outputs.vs_path }}\MSBuild\Current\Bin"
-          mkdir quickfix/build
-          cd quickfix/build
-          cmake -G "Visual Studio 16 2019" -A x64 -DHAVE_SSL=ON -DCMAKE_INSTALL_PREFIX="C:/quickfix" -DCMAKE_CXX_STANDARD=17 ..
-          cmake --build . --config Release
-          cmake --install .
-
-      - name: Prepare files for wheel build
-        run: |
-          mkdir -p ./quickfix-binary/C++
-          mkdir -p ./quickfix-binary/spec
-          
-          cp quickfix/build/*.dll ./quickfix-binary/C++  # Copy precompiled binaries
-          cp quickfix/src/C++/*.h ./quickfix-binary/C++
-          cp quickfix/src/python3/*.py ./quickfix-binary/
-          cp quickfix/src/python3/QuickfixPython.cpp ./quickfix-binary/C++
-          cp quickfix/src/python3/QuickfixPython.h ./quickfix-binary/C++
-          cp quickfix/src/swig/* ./quickfix-binary/C++
-          cp quickfix/LICENSE ./quickfix-binary/
-          cp quickfix/spec/FIX*.xml ./quickfix-binary/spec
-          touch ./quickfix-binary/C++/config.h
-          touch ./quickfix-binary/C++/config_windows.h
-    
-
       - name: Build wheel
         env:
           CIBW_BUILD: cp312-win_amd64
           CIBW_BEFORE_BUILD: pip install cmake
         run: |
-          cd quickfix-binary
+          cd quickfix
           python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
