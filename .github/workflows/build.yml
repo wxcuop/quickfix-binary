@@ -28,7 +28,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Setup MSVC
-        uses: microsoft/setup-msbuild@1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Ensure Visual Studio 2019 is installed
         run: |
