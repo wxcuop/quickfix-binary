@@ -1,2 +1,2 @@
-Windows build of Quckfix Man branch
+Windows build of Quckfix 1.15.1
 
