@@ -15,7 +15,7 @@ jobs:
       - name: Checkout quickfix-binary repository
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/quickfix/quickfix
+          repository: quickfix/quickfix
           ref: main
           path: quickfix
 
