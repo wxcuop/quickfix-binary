@@ -42,7 +42,7 @@ jobs:
 
       - name: Download QuickFIX source archive
         run: |
-          curl -L -o quickfix.zip https://github.com/wxcuop/quickfix-binary/raw/main/quickfix-1.15.1_src.zip
+          curl -L -o quickfix.zip https://github.com/quickfix/quickfix/archive/refs/tags/v1.15.1.zip
 
       - name: Extract QuickFIX sources
         run: |
