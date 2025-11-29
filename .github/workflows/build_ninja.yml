@@ -1,4 +1,4 @@
-name: Build and Deploy QuickFIX main latest (Ninja)
+name: Build and Deploy QuickFIX 1.15.1 (Ninja)
 
 on:
   workflow_dispatch:
