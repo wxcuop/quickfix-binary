@@ -1,0 +1,67 @@
+name: Build and Deploy QuickFIX main latest (Ninja)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+
+    steps:
+      - name: Download QuickFIX source archive
+        uses: actions/download-artifact@v4
+        with:
+          url: https://github.com/wxcuop/quickfix-binary/raw/main/quickfix-1.15.1_src.zip
+          path: quickfix.zip
+
+      - name: Extract QuickFIX sources
+        run: |
+          mkdir quickfix
+          tar -xf quickfix.zip -C quickfix
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Ninja
+        run: choco install ninja
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools==65.7.0 wheel cibuildwheel cmake mysqlclient
+
+      - name: Ensure Visual Studio 2019 is installed
+        run: |
+          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
+          choco install vswhere
+
+      - name: Install OpenSSL
+        run: choco install openssl
+
+      # If you want to locate VS or OpenSSL, set paths. OPENSSL_DIR is optional here; adjust as needed!
+      - name: Build QuickFIX C++ library (Ninja)
+        run: |
+          mkdir quickfix/build
+          cd quickfix/build
+          cmake -G "Ninja" -DHAVE_SSL=ON -DCMAKE_INSTALL_PREFIX="C:/quickfix" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_STANDARD=17 ..
+          ninja
+          ninja install
+
+      - name: Build QuickFIX Python wheel for ${{ matrix.python-version }}
+        run: |
+          cd quickfix/python
+          python -m pip install --upgrade pip setuptools wheel
+          python setup.py build_ext --inplace
+          python setup.py bdist_wheel
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: quickfix-wheel-py${{ matrix.python-version }}
+          path: quickfix/python/dist/*.whl
