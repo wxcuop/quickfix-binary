@@ -12,17 +12,6 @@ jobs:
         python-version: ['3.11', '3.12', '3.13']
 
     steps:
-      - name: Download QuickFIX source archive
-        uses: actions/download-artifact@v4
-        with:
-          url: https://github.com/wxcuop/quickfix-binary/raw/main/quickfix-1.15.1_src.zip
-          path: quickfix.zip
-
-      - name: Extract QuickFIX sources
-        run: |
-          mkdir quickfix
-          tar -xf quickfix.zip -C quickfix
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -44,7 +33,15 @@ jobs:
       - name: Install OpenSSL
         run: choco install openssl
 
-      # If you want to locate VS or OpenSSL, set paths. OPENSSL_DIR is optional here; adjust as needed!
+      - name: Download QuickFIX source archive
+        run: |
+          curl -L -o quickfix.zip https://github.com/wxcuop/quickfix-binary/raw/main/quickfix-1.15.1_src.zip
+
+      - name: Extract QuickFIX sources
+        run: |
+          mkdir quickfix
+          tar -xf quickfix.zip -C quickfix
+
       - name: Build QuickFIX C++ library (Ninja)
         run: |
           mkdir quickfix/build
